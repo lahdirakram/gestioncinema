@@ -1,8 +1,5 @@
 # Système de gestion des salles de cinéma
 
-## Lahdir Mohamed Akram
-
-
 ## Contraintes:
 
 1. Clé PRIMAIRE:
@@ -53,16 +50,10 @@
 
 ## les règles de gestion:
 
-1. un gérant organise une programmation qui est composée d’un film et se
-    déroule dans une salle et qui a une date de début et date de fin avec heur
-    précise et un tarif de base .(triggers)
-2. un client peut réserver une ou plusieur places pour une programmation et
-    le montant est calculé à partir du tarif de base plus le tarif des sièges et
-    services supplémentaire (boisson , food ...).(triggers)
-3. un client a le droit de laisser un avis en donnant le numéro de sa
-    réservation, un nombre d'étoile entre 1 et 5 et un commentaire .(requete)
-4. un gérant affecte un employé à une tâche pendant un nombre d’heur
-    précise .(requête d’insertion)
+1. un gérant organise une programmation qui est composée d’un film et se déroule dans une salle et qui a une date de début et date de fin avec heur précise et un tarif de base .(triggers)
+2. un client peut réserver une ou plusieur places pour une programmation et le montant est calculé à partir du tarif de base plus le tarif des sièges et services supplémentaire (boisson , food ...).(triggers)
+3. un client a le droit de laisser un avis en donnant le numéro de sa réservation, un nombre d'étoile entre 1 et 5 et un commentaire .(requete)
+4. un gérant affecte un employé à une tâche pendant un nombre d’heur précise .(requête d’insertion)
 
 ## la description SQL du schéma de la base:
 
@@ -86,68 +77,42 @@
 
 ## liste des fonctions, triggers et règles de gestion:
 
-```
-● Fonctions :
-a. date_intersect : ​c’est une fonction qui prend deux intervals de date
-en entré et renvoie vrai s’il existe une intersection entre ces dates et
+
+- Fonctions :
+	1. date_intersect : c’est une fonction qui prend deux intervals de date en entré et renvoie vrai s’il existe une intersection entre ces dates et
 faux si non.
-b. count_lignes : ​c’est une fonction qui prend le nombre de fauteuils
-d’une salle en entré et renvoie le nombre de rang de cette salle.
-c. col_style : ​elle prend le nombre de fauteuils d’une salle et renvoie
-le nombre de groupe de fauteuil de cette salle. par exemple cette
-salle est divisé en 3 groupe :
-d. ​ calcul_montant : ​elle calcule le montant total de la réservation en
-allant du tarif de base de la séance pour qui on ajoute des
-suppléments qui dépends de la position de la place réservée.
-● Triggers :
-a. AttributionTache trigger : ​il se déclenche après une insertion ou
-modification sur la table ​ attribution Tâche ​et il a pour but de
-vérifier les contraintes suivantes:
-■ le nombre d’heur de travail de l'employé concerné ne sera
-pas dépassé après l'ajout de cette tâche.
-■ un employé ne peut pas être affecté à une salle qui se situe
-en dehors de son département.
-■ un employé ne peut pas être affecté à deux tâche en parallèle.
-■ l’attribution d’une tâche ne causera pas des dépassement en
-term de nombre d'employés nécessaire pour cette tâche.
-```
-
-**b. Programmation chevauchement :** ​il se déclenche après une
-insertion ou modification sur la table ​ **Programmation** ​et il a pour
-but de vérifier :
-**■** s’il y a pas d’autre programmations qui chevauchent avec
-cette nouvelle programmation
-**■** que les employés de type gestionnaire peuvent ajouter une
-programmation.
-**c. Réservation Valid :** ​il se déclenche après une insertion ou
-modification sur la table ​ **Réservation** ​et il a pour but de vérifier
-**■** si la date choisi est valide et que le siège choisi est
-disponible.
-**● Règles de gestion :**
-a. **ajoutProgrammation et annuleProgrammation :** ​ l’ajout d’une
-Programmation et son annulation.
-b. **ajoutReservation et annuleReservation :** ​ l’ajout d’une
-Réservation et son annulation.
-c. **attribuerTache et desattribuerTache :** ​l’attribution d’une Tâche
-et son désattribution.
-d. **ajoutAvis et supprimeAvis :** ​l’ajout d’un avis et sa suppression.
-e. **ajoutFilm et supprimeFilm :** ​ l’ajout d’un film et sa suppression.
-f. **ajoutClient et supprimeClient :** ​ l’ajout d’un client et sa
-suppression.
-g. **ajoutEmploye et supprimeEmploye :** ​ l’ajout d’un employe de sa
-suppression.
-h. **ajoutTache et supprimeTache :** ​ l’ajout d’une tâche et sa
-suppression.
-i. **ajoutSalle et supprimeSalle :** ​ l’ajout d’une salle et sa suppression.
+	1. count_lignes : c’est une fonction qui prend le nombre de fauteuils d’une salle en entré et renvoie le nombre de rang de cette salle.
+	1. col_style : elle prend le nombre de fauteuils d’une salle et renvoie le nombre de groupe de fauteuil de cette salle. 
+	1. calcul_montant : elle calcule le montant total de la réservation en allant du tarif de base de la séance pour qui on ajoute des suppléments qui dépends de la position de la place réservée.
+- Triggers :
+	1. AttributionTache trigger : il se déclenche après une insertion ou modification sur la table **attribution Tâche** et il a pour but de vérifier les contraintes suivantes:
+		- le nombre d’heur de travail de l'employé concerné ne sera pas dépassé après l'ajout de cette tâche.
+		- un employé ne peut pas être affecté à une salle qui se situe en dehors de son département.
+		- un employé ne peut pas être affecté à deux tâche en parallèle.
+		- l’attribution d’une tâche ne causera pas des dépassement en term de nombre d'employés nécessaire pour cette tâche.
 
 
-**● les indexes :
-a. tache_indx :** ​index de type ‘barbre’ sur l’attribut nom de la table
-**tache** ​ce qui vas permettre un accès direct lors d’une recherche.
-**b. film_indx :** ​index de type ‘barbre’ sur l’attribut titre de la table
-**film** ​ qui vas permettre un accès plus rapide.
-**c. salle_indx :** ​index de type ‘hash’ sur l’attribut code postal de la
-table​ **salle.**
+	2. Programmation chevauchement : il se déclenche après une insertion ou modification sur la table **Programmation** et il a pour but de vérifier :
+		- s’il y a pas d’autre programmations qui chevauchent avec cette nouvelle programmation.
+		- que les employés de type gestionnaire peuvent ajouter une programmation.
+	3. Réservation Valid : il se déclenche après une insertion ou modification sur la table **Réservation** et il a pour but de vérifier
+		- si la date choisi est valide et que le siège choisi est disponible.
+- Règles de gestion :
+	1. ajoutProgrammation et annuleProgrammation : l’ajout d’une Programmation et son annulation.
+	2. ajoutReservation et annuleReservation : l’ajout d’une Réservation et son annulation.
+	3. attribuerTache et desattribuerTache : l’attribution d’une Tâche et son désattribution.
+	4. ajoutAvis et supprimeAvis : l’ajout d’un avis et sa suppression.
+	5. ajoutFilm et supprimeFilm : l’ajout d’un film et sa suppression.
+	6. ajoutClient et supprimeClient : l’ajout d’un client et sa suppression.
+	7. ajoutEmploye et supprimeEmploye : l’ajout d’un employe de sa suppression.
+	8. ajoutTache et supprimeTache : l’ajout d’une tâche et sa suppression.
+	9. ajoutSalle et supprimeSalle : l’ajout d’une salle et sa suppression.
+
+
+- les indexes :
+	1. tache_indx : index de type ‘barbre’ sur l’attribut nom de la table **tache** ce qui vas permettre un accès direct lors d’une recherche.
+	1. film_indx : index de type ‘barbre’ sur l’attribut titre de la table **film** qui vas permettre un accès plus rapide.
+	1. salle_indx : index de type ‘hash’ sur l’attribut code postal de la table **salle**.
 
 
 
