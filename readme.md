@@ -1,5 +1,19 @@
 # Système de gestion des salles de cinéma
 
+
+## la description SQL du schéma de la base:
+
+- **film** (idFilm, titre, realisateur, producteurs, dateSortie, nationalite, genre, devis)
+- **individu**(idIndividu, nom, prenom)
+- **client** (pointFidelite) **hérite individu**
+- **employe** (departement, salaire_horraire, nbHeurPerSemaine, gestionaire)**hérite individu**
+- **tache** (idTache, nom, descr, nbEmploye)
+- **salle** (idSalle, nom, adress, codePostal, commune, fauteuils, nblignes, stylecolones, estOuverte)
+- **programmation** (idProgrammation, idEmploye*, idFilm*, idSalle*, dateDeffet, dateDebut, dateFin, heurDebut, heurFin, tarifBase)
+- **reservation**(idRes, idProgrammation*,idClient*, dateDeffet, dateseance, ligne, col, colstyle,montantPaye)
+- **avis** (idAvis, idClient*,idRes*, nbEtoile,comentaire)
+- **attributionTache**(idAttrib, idEmploye*, idTache*, idSalle*, dateDeb, dateFin, heur, nbHeur, estAbsent)
+
 ## Contraintes:
 
 1. **Clé PRIMAIRE**:
@@ -38,26 +52,6 @@
 	1. employe:
 		1. salaire horaire entre 10 et 20.
 		2. nb_heur entre 10 et 35.
-
-## la description SQL du schéma de la base:
-
-- film (​ **idFilm** ​, titre, realisateur, producteurs, dateSortie, nationalite, genre,
-    devis)
-- individu(​ **idIndividu** ​, nom, prenom)
-- client (pointFidelite) ​ **hérite individu**
-- employe (departement, salaire_horraire, nbHeurPerSemaine, gestionaire
-    )​ **hérite individu**
-- tache (​ **idTache,** ​ nom, descr, nbEmploye)
-- salle(​ **idSalle,** ​ nom, adress, codePostal, commune, fauteuils, nblignes,
-    stylecolones, estOuverte)
-- programmation (​ **idProgrammation,** ​idEmploye*, idFilm*, idSalle*,
-    dateDeffet, dateDebut, dateFin, heurDebut, heurFin, tarifBase)
-- reservation(​ **idRes,** idProgrammation*,idClient*, dateDeffet, dateseance ,
-    ligne, col, colstyle,montantPaye)
-- avis (​ **idAvis** ​, idClient*,idRes*, nbEtoile,comentaire)
-- attributionTache(​ **idAttrib** ​, idEmploye*, idTache*, idSalle*, dateDeb,
-    dateFin, heur, nbHeur, estAbsent)
-
 
 ## liste des fonctions, triggers et règles de gestion:
 
